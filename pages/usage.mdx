@@ -1,0 +1,80 @@
+## Add `SuitcmsToolkit` to your filament panel provider
+
+add to your filament panel provider add this line
+
+```php
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->plugin(SuitcmsToolkit::make()); // add this line
+    }
+```
+
+you can disable specific resource using this syntax
+
+```php
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->plugin(
+                SuitcmsToolkit::make()
+                    ->settingResource(condition: false);
+            )
+    }
+```
+
+this will disable setting resources
+
+another available function 
+
+```php
+SuitcmsToolkit::make()
+    ->seoMetaResource(condition: false)
+    ->permissionResource(condition: false)
+    ->roleResource(condition: false)
+    ->adminResource(condition: false)
+```
+
+## Generate Admin User Command
+
+```bash
+php artisan cms:admin-generate
+```
+
+## Generate Permissions Command
+
+add new permission map in `config/cms/permission.php` file
+
+You can generate Permissions by running
+
+```bash
+php artisan cms:permission-sync
+```
+
+## Generate Policy Command
+
+```bash
+php artisan cms:policy-generate
+```
+
+for admins, roles, permissions, settings and seo_metas resource the policy class already generated and loaded from the package, so you don't need to regenerate.
+
+## Important
+
+you can add new permission to config file in `config/cms/permissions.php` file
+
+```php
+<?php
+
+return [
+    \Fajar\Filament\Suitcms\Models\Admin::class => ['view-any', 'view', 'create', 'update', 'delete', 'restore', 'force-delete'],
+    \Fajar\Filament\Suitcms\Models\Role::class => ['view-any', 'view', 'create', 'update', 'delete'],
+    \Fajar\Filament\Suitcms\Models\Permission::class => ['view-any', 'view', 'create', 'update', 'delete'],
+    \Fajar\Filament\Suitcms\Models\Setting::class => ['view-any', 'view', 'update', 'create', 'update', 'delete'],
+    \Fajar\Filament\Suitcms\Models\SeoMeta::class => ['view-any', 'view', 'update', 'create', 'update', 'delete'],
+];
+```
+
+then run generate permission and policy command to regenerate permission data and policy class
+
+if you didn't generate policy class your authorization will not works eventhough you have the correct permission and role data to the related admin.

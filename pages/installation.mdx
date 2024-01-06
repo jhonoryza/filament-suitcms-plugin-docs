@@ -1,0 +1,47 @@
+you need to install this library to use this package
+
+```bash
+composer require filament/filament:"^3.1"
+
+composer require spatie/laravel-permission:"^6.3"
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+composer require spatie/laravel-medialibrary:"^10.0"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
+```
+
+You can install the package via composer:
+
+```bash
+composer require jhonoryza/filament-suitcms
+```
+
+install filament-suitcms
+
+```bash
+php artisan filament-suitcms:install
+```
+
+this command will do :
+
+1. publish filament-suitcms config
+2. ask to run migration, if you get asked `Would you like to run the migrations now?` choose `yes`
+3. sync permission data
+4. generate default super admin user, default admin user is `admin@admin.com` with password : `password`
+5. generate default setting data
+
+now you can create filament panel builder using this command :
+
+```bash
+php artisan filament:install --panels
+```
+
+then open `PanelProvider` add this line
+
+```php
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->plugin(SuitcmsToolkit::make()); // add this line
+    }
+```

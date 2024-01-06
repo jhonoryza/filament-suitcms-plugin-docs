@@ -1,15 +1,13 @@
 {
   "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
+  "installation": "Getting Started",
+  "usage": "Usage",
+  "usefull_package": "Usefull Package",
+  "advanced": "Implementation",
   "contact": {
-    "title": "Contact ↗",
+    "title": "Twitter ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://twitter.com/jardik7",
     "newWindow": true
   }
 }
