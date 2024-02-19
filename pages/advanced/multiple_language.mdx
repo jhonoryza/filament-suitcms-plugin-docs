@@ -29,7 +29,7 @@ models:
       BelongsTo: Post
 ```
 
-then run 
+then run
 
 ```bash
 php artisan blueprint:build draft.yml
@@ -98,23 +98,23 @@ class Post extends Model implements TranslatableModel
 }
 ```
 
-lets run 
+lets run
 
-```bash 
+```bash
 php artisan migrate
 ```
 
 to generate `posts` and `post_translations` tables
 
-then run 
+then run
 
-```bash 
+```bash
 php artisan make:filament-resource -G
 ```
 
 type `Post` to generate post resources
 
-to create post translation data adjust class `app/Filament/Resources/PostResource.php`, 
+to create post translation data adjust class `app/Filament/Resources/PostResource.php`,
 edit form function like this :
 
 ```php
@@ -125,28 +125,32 @@ public static function form(Form $form): Form
             Tabs::make('lang')
                 ->columnSpanFull()
                 ->schema([
-                    Tab::make('English')
-                        ->schema([
-                            Forms\Components\TextInput::make('title.en')
-                                ->label('Title')
-                                ->required(),
-                            Forms\Components\RichEditor::make('content.en')
-                                ->label('Content')
-                                ->required()
-                                ->maxLength(65535),
+                    Tabs::make('Tabs')
+                        ->columnSpanFull()
+                        ->tabs([
+                            Tab::make('English')
+                                ->schema([
+                                    Forms\Components\TextInput::make('title.en')
+                                        ->label('Title')
+                                        ->required(),
+                                    Forms\Components\RichEditor::make('content.en')
+                                        ->label('Content')
+                                        ->required()
+                                        ->maxLength(65535),
 
+                                ]),
+                            Tab::make('Indonesia')
+                                ->schema([
+                                    Forms\Components\TextInput::make('title.id')
+                                        ->label('Title')
+                                        ->required(),
+                                    Forms\Components\RichEditor::make('content.id')
+                                        ->label('Content')
+                                        ->required()
+                                        ->maxLength(65535),
+
+                                ]),
                         ]),
-                    Tab::make('Indonesia')
-                        ->schema([
-                            Forms\Components\TextInput::make('title.id')
-                                ->label('Title')
-                                ->required(),
-                            Forms\Components\RichEditor::make('content.id')
-                                ->label('Content')
-                                ->required()
-                                ->maxLength(65535),
-
-                        ])
                 ]),
             Forms\Components\TextInput::make('slug')
                 ->columnSpanFull()
@@ -158,7 +162,7 @@ public static function form(Form $form): Form
 }
 ```
 
-to load post translation data when editing a post, you can change 
+to load post translation data when editing a post, you can change
 class `app/Filament/Resources/PostResource/Pages/EditPost.php` and add a function `mutateFormDataBeforeFill` like this :
 
 ```php
