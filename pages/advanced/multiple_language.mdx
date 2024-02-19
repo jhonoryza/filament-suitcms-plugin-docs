@@ -1,6 +1,6 @@
 We will use this package to manage database multiple language implementation
 
-```bash
+```bash copy
 composer require richan-fongdasen/laravel-i18n: "^3.2"
 ```
 
@@ -14,7 +14,7 @@ form preview :
 
 using blueprint package create `draft.yaml` file in root directory
 
-```yaml
+```yaml copy
 models:
   Post:
     slug: string nullable
@@ -31,7 +31,7 @@ models:
 
 then run
 
-```bash
+```bash copy
 php artisan blueprint:build draft.yml
 ```
 
@@ -39,7 +39,7 @@ this will generate migrations, models and factories file
 
 lets change `storage/i18n/languages.json` file content to this :
 
-```json
+```json copy
 [
     {
         "name": "English",
@@ -56,7 +56,7 @@ lets change `storage/i18n/languages.json` file content to this :
 
 adjust `app/Models/Post` like this
 
-```php
+```php copy showLineNumbers {7-8,10,13,35-38}
 <?php
 
 namespace App\Models;
@@ -100,7 +100,7 @@ class Post extends Model implements TranslatableModel
 
 lets run
 
-```bash
+```bash copy
 php artisan migrate
 ```
 
@@ -108,7 +108,7 @@ to generate `posts` and `post_translations` tables
 
 then run
 
-```bash
+```bash copy
 php artisan make:filament-resource -G
 ```
 
@@ -117,41 +117,35 @@ type `Post` to generate post resources
 to create post translation data adjust class `app/Filament/Resources/PostResource.php`,
 edit form function like this :
 
-```php
+```php copy showLineNumbers {5-28}
 public static function form(Form $form): Form
 {
     return $form
         ->schema([
             Tabs::make('lang')
                 ->columnSpanFull()
-                ->schema([
-                    Tabs::make('Tabs')
-                        ->columnSpanFull()
-                        ->tabs([
-                            Tab::make('English')
-                                ->schema([
-                                    Forms\Components\TextInput::make('title.en')
-                                        ->label('Title')
-                                        ->required(),
-                                    Forms\Components\RichEditor::make('content.en')
-                                        ->label('Content')
-                                        ->required()
-                                        ->maxLength(65535),
-
-                                ]),
-                            Tab::make('Indonesia')
-                                ->schema([
-                                    Forms\Components\TextInput::make('title.id')
-                                        ->label('Title')
-                                        ->required(),
-                                    Forms\Components\RichEditor::make('content.id')
-                                        ->label('Content')
-                                        ->required()
-                                        ->maxLength(65535),
-
-                                ]),
+                ->tabs([
+                    Tab::make('English')
+                        ->schema([
+                            Forms\Components\TextInput::make('title.en')
+                                ->label('Title')
+                                ->required(),
+                            Forms\Components\RichEditor::make('content.en')
+                                ->label('Content')
+                                ->required()
+                                ->maxLength(65535),
                         ]),
+                    Tab::make('Indonesia')
+                        ->schema([
+                            Forms\Components\TextInput::make('title.id')
+                                ->label('Title')
+                                ->required(),
+                            Forms\Components\RichEditor::make('content.id')
+                                ->label('Content')
+                                ->required()
+                                ->maxLength(65535),
                 ]),
+            ]),
             Forms\Components\TextInput::make('slug')
                 ->columnSpanFull()
                 ->required()
@@ -165,7 +159,7 @@ public static function form(Form $form): Form
 to load post translation data when editing a post, you can change
 class `app/Filament/Resources/PostResource/Pages/EditPost.php` and add a function `mutateFormDataBeforeFill` like this :
 
-```php
+```php copy showLineNumbers
 protected function mutateFormDataBeforeFill(array $data): array
 {
     $locales = app(I18nService::class)->getAllLocale();
