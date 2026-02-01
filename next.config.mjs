@@ -6,7 +6,7 @@
 // module.exports = withNextra()
 
 import nextra from 'nextra';
-import themeConfig from './theme.config.js';
+import themeConfig from './theme.config.tsx';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = nextra({
